@@ -52,19 +52,17 @@
 		*/
 		var geometry = new THREE.BoxGeometry( 20, 26.27, 20 );
 
-		var material = new THREE.MeshNormalMaterial();
+		var materials = [
+			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p1.jpg' )}),
+			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p2.jpg' )}),
+			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p3.jpg' )}),
+			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p4.jpg' )}),
+			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p5.jpg' )}),
+			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p5.jpg' )})		
+		];
 
 
-
-		var comicTexture = new THREE.ImageUtils.loadTexture( 'resources/p1.jpg' );
-		comicTexture.wrapS = comicTexture.wrapT = THREE.RepeatWrapping;
-		var material = new THREE.MeshBasicMaterial( { map: comicTexture } );
-
-
-
-
-
-		var cube = new THREE.Mesh( geometry, material );
+		var cube = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
 
 		/*
 		Position cube mesh
@@ -83,7 +81,7 @@
 			/*
 			Apply rotation to cube mesh
 			*/
-//			cube.rotation.y += 0.01;
+			cube.rotation.y += 0.01;
 
 			/*
 			Update VR headset position and apply to camera.
