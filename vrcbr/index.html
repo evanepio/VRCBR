@@ -129,7 +129,7 @@
 				}
 				swapComicPage(imageIndex);
    			} else if (event.keyCode == 38) { // Up
-				cube.position.z = cube.position.z - moveValue;
+				cube.position.z = cube.position.z + moveValue;
 			} else if (event.keyCode == 39) { // Right
 				if (imageIndex === LAST_IMAGE_INDEX) {
 					imageIndex = 1;
@@ -138,15 +138,15 @@
 				}
 				swapComicPage(imageIndex);
 			} else if (event.keyCode == 40) { // Down
-				cube.position.z = cube.position.z + moveValue;
+				cube.position.z = cube.position.z - moveValue;
 			} else if (event.keyCode == 87) { //W
-				cube.position.y = cube.position.y + moveValue;
-			} else if (event.keyCode == 83) { //S
 				cube.position.y = cube.position.y - moveValue;
+			} else if (event.keyCode == 83) { //S
+				cube.position.y = cube.position.y + moveValue;
 			} else if (event.keyCode == 65) { //A 
-				cube.position.x = cube.position.x - moveValue;
-			} else if (event.keyCode == 68) { //D 
 				cube.position.x = cube.position.x + moveValue;
+			} else if (event.keyCode == 68) { //D 
+				cube.position.x = cube.position.x - moveValue;
 			}
 			
 	  };
