@@ -50,7 +50,7 @@
 		/*
 		Create 3d objects
 		*/
-		var geometry = new THREE.BoxGeometry( 20, 26.27, 20 );
+		var geometry = new THREE.BoxGeometry( 20, 30.91, 20 );
 
 		var materials = [
 			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p1.jpg' )}),
@@ -117,13 +117,16 @@
         var moveValue = 0.2;
 	    if (event.keyCode == 90) { // z
 	    	controls.zeroSensor();
-	    } else if (event.keyCode == 37) { // Left 
+	    } else if (event.keyCode == 32) { // Space
+			cube.position.x = 0;
+			cube.position.y = -9;
+	    } else if (event.keyCode == 37) { // Left
 			cube.position.x = cube.position.x - moveValue;
-	    } else if (event.keyCode == 38) { // Up 
+	    } else if (event.keyCode == 38) { // Up
 			cube.position.y = cube.position.y + moveValue;
 		} else if (event.keyCode == 39) { // Right
 			cube.position.x = cube.position.x + moveValue;
-	    } else if (event.keyCode == 40) { // Down 
+	    } else if (event.keyCode == 40) { // Down
 			cube.position.y = cube.position.y - moveValue;
 		}
 	  };
