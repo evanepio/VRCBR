@@ -52,6 +52,7 @@
 		*/
 		var geometry = new THREE.BoxGeometry( 20, 30.91, 20 );
 
+		THREE.ImageUtils.crossOrigin = '';
 		var material = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p1.jpg' )});
 
 
@@ -113,7 +114,7 @@
 	    	} else if (event.keyCode == 32) { // Space
 				cube.position.x = 0;
 				cube.position.y = -9;
-				material.map = new THREE.ImageUtils.loadTexture( 'resources/p2.jpg' );
+				material.map = THREE.ImageUtils.loadTexture( 'resources/p2.jpg' );
 				material.needsUpdate = true;
 	   		} else if (event.keyCode == 37) { // Left
 				cube.position.x = cube.position.x - moveValue;
