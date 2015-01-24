@@ -52,17 +52,10 @@
 		*/
 		var geometry = new THREE.BoxGeometry( 20, 30.91, 20 );
 
-		var materials = [
-			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p1.jpg' )}),
-			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p2.jpg' )}),
-			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p3.jpg' )}),
-			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p4.jpg' )}),
-			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p5.jpg' )}),
-			new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p5.jpg' )})		
-		];
+		var material = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p1.jpg' )});
 
 
-		var cube = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+		var cube = new THREE.Mesh( geometry, material );
 
 		/*
 		Position cube mesh
@@ -120,6 +113,9 @@
 	    } else if (event.keyCode == 32) { // Space
 			cube.position.x = 0;
 			cube.position.y = -9;
+			
+			material.map = THREE.ImageUtils.loadTexture( 'resources/p2.jpg' );
+			material.needsUpdate = true;
 	    } else if (event.keyCode == 37) { // Left
 			cube.position.x = cube.position.x - moveValue;
 	    } else if (event.keyCode == 38) { // Up
