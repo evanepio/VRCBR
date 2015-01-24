@@ -16,6 +16,11 @@
 		
 		<script>
 
+		var imageIndex = 1;
+		var LAST_IMAGE_INDEX = 5;
+		var COMIC_FILE_PREFIX = 'resources/p';
+		var COMIC_FILE_POSTFIX = '.jpg';
+		
 		/*
 		Setup three.js WebGL renderer
 		*/
@@ -53,7 +58,9 @@
 		var geometry = new THREE.BoxGeometry( 20, 30.91, 20 );
 
 		THREE.ImageUtils.crossOrigin = '';
-		var material = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture( 'resources/p1.jpg' )});
+		var material = new THREE.MeshBasicMaterial(
+			{map: THREE.ImageUtils.loadTexture( COMIC_FILE_PREFIX + imageIndex + COMIC_FILE_POSTFIX )}
+		);
 
 
 		var cube = new THREE.Mesh( geometry, material );
@@ -114,8 +121,15 @@
 	    	} else if (event.keyCode == 32) { // Space
 				cube.position.x = 0;
 				cube.position.y = -9;
-				material.map = THREE.ImageUtils.loadTexture( 'resources/p2.jpg' );
+				
+				imageIndex++;
+				
+				material.map = THREE.ImageUtils.loadTexture( COMIC_FILE_PREFIX + imageIndex + COMIC_FILE_POSTFIX );
 				material.needsUpdate = true;
+				
+				if (imageIndex == LAST_IMAGE_INDEX) {
+					imageIndex = 1;
+				}
 	   		} else if (event.keyCode == 37) { // Left
 				cube.position.x = cube.position.x - moveValue;
    			} else if (event.keyCode == 38) { // Up
