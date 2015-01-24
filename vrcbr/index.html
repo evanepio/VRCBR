@@ -116,7 +116,11 @@
 
 	    if (event.keyCode == 90) { // z
 	    	controls.zeroSensor();
-	    }
+	    } else if (event.keyCode == 37) { // Left 
+			console.log('Left!');
+		} else if (event.keyCode == 39) { // Right
+			console.log('Right!');
+		}
 	  };
 
 	  window.addEventListener("keydown", onkey, true);
