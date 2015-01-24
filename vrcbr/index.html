@@ -50,15 +50,15 @@
 		/*
 		Create 3d objects
 		*/
-		var geometry = new THREE.BoxGeometry( 10, 10, 10 );
+		var geometry = new THREE.BoxGeometry( 20, 26.27, 20 );
 
 		var material = new THREE.MeshNormalMaterial();
 
 
 
-		var crateTexture = new THREE.ImageUtils.loadTexture( 'resources/p1.jpg' );
-		crateTexture.wrapS = crateTexture.wrapT = THREE.RepeatWrapping;
-		var material = new THREE.MeshBasicMaterial( { map: crateTexture } );
+		var comicTexture = new THREE.ImageUtils.loadTexture( 'resources/p1.jpg' );
+		comicTexture.wrapS = comicTexture.wrapT = THREE.RepeatWrapping;
+		var material = new THREE.MeshBasicMaterial( { map: comicTexture } );
 
 
 
