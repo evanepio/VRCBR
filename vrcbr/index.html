@@ -54,6 +54,16 @@
 
 		var material = new THREE.MeshNormalMaterial();
 
+
+
+		var crateTexture = new THREE.ImageUtils.loadTexture( 'resources/p1.jpg' );
+		crateTexture.wrapS = crateTexture.wrapT = THREE.RepeatWrapping;
+		var material = new THREE.MeshBasicMaterial( { map: crateTexture } );
+
+
+
+
+
 		var cube = new THREE.Mesh( geometry, material );
 
 		/*
@@ -73,7 +83,7 @@
 			/*
 			Apply rotation to cube mesh
 			*/
-			cube.rotation.y += 0.01;
+//			cube.rotation.y += 0.01;
 
 			/*
 			Update VR headset position and apply to camera.
