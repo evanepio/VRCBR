@@ -10,40 +10,26 @@ VRCBR = (function(doc) {
     var COMIC_FILE_PREFIX = 'resources/';
     var COMIC_FILE_POSTFIX = '.jpg';
 
-    /*
-       Setup three.js WebGL renderer
-       */
+    // Setup three.js WebGL renderer
     var renderer = new THREE.WebGLRenderer( { antialias: true } );
 
-    /*
-       Append the canvas element created by the renderer to document body element.
-       */
+    // Append the canvas element created by the renderer to document body element.
     doc.body.appendChild( renderer.domElement );
 
-    /*
-       Create a three.js scene
-       */
+    // Create a three.js scene
     var scene = new THREE.Scene();
 
-    /*
-       Create a three.js camera
-       */
+    // Create a three.js camera
     var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
 
-    /*
-       Apply VR headset positional data to camera.
-       */
+    // Apply VR headset positional data to camera.
     var controls = new THREE.VRControls( camera );
 
-    /*
-       Apply VR stereo rendering to renderer
-       */
+    // Apply VR stereo rendering to renderer
     var effect = new THREE.VREffect( renderer );
     effect.setSize( window.innerWidth, window.innerHeight );
 
-    /*
-       Create 3d objects
-       */
+    // Create 3d objects
     var geometry = new THREE.BoxGeometry( 20, 30.91, 20 );
 
     THREE.ImageUtils.crossOrigin = '';
@@ -54,53 +40,32 @@ VRCBR = (function(doc) {
 
     var cube = new THREE.Mesh( geometry, material );
 
-    /*
-       Position cube mesh
-       */
+    // Position cube mesh
     cube.position.z = -20;
 
-    /*
-       Add cube mesh to your three.js scene
-       */
+    // Add cube mesh to your three.js scene
     scene.add( cube );
 
-    /*
-       Request animation frame loop function
-       */
+    // Request animation frame loop function
     var animate = function() {
-        /*
-           Apply rotation to cube mesh
-           */
-        //cube.rotation.y += 0.01;
-
-        /*
-           Update VR headset position and apply to camera.
-           */
+        // Update VR headset position and apply to camera.
         controls.update();
 
-        /*
-           Render the scene through the VREffect.
-           */
+        // Render the scene through the VREffect.
         effect.render( scene, camera );
 
         requestAnimationFrame( animate );
     }
 
-    /*
-       Kick off animation loop
-       */
+    // Kick off animation loop
     animate();
 
-    /*
-       Listen for double click event to enter full-screen VR mode
-       */
+    // Listen for double click event to enter full-screen VR mode
     document.body.addEventListener( 'dblclick', function() {
         effect.setFullScreen( true );
     });
 
-    /*
-       Listen for keyboard event and zero positional sensor on appropriate keypress.
-       */
+    // Listen for keyboard event and zero positional sensor on appropriate keypress.
     var onkey = function(event) {
         event.preventDefault();
 
@@ -148,9 +113,7 @@ VRCBR = (function(doc) {
     window.addEventListener("keydown", onkey, true);
 
 
-    /*
-       Handle window resizes
-       */
+    // Handle window resizes
     var onWindowResize = function() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
