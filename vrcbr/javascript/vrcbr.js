@@ -4,7 +4,6 @@
 VRCBR = (function(doc) {
     "use strict";
 
-
     var imageIndex = 1;
     var LAST_IMAGE_INDEX = 5;
     var COMIC_FILE_PREFIX = 'resources/';
@@ -33,10 +32,9 @@ VRCBR = (function(doc) {
     var geometry = new THREE.BoxGeometry( 20, 30.91, 20 );
 
     THREE.ImageUtils.crossOrigin = '';
-    var material = new THREE.MeshBasicMaterial(
-            {map: THREE.ImageUtils.loadTexture( COMIC_FILE_PREFIX + imageIndex + COMIC_FILE_POSTFIX )}
-            );
-
+    var material = new THREE.MeshBasicMaterial({
+        map: THREE.ImageUtils.loadTexture( COMIC_FILE_PREFIX + imageIndex + COMIC_FILE_POSTFIX )
+    });
 
     var cube = new THREE.Mesh( geometry, material );
 
