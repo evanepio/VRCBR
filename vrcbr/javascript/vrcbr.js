@@ -4,39 +4,160 @@
 VRCBR = (function(doc) {
     "use strict";
 
-    // Initialize Web GL canvas
-    var initWebGL = function(canvas) {
-          gl = null;
-            
-            try {
-                // Try to grab the standard context. If it fails, fallback to experimental.
-                gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-            }
-            catch(e) {}
-                               
-            // If we don't have a GL context, give up now
-            if (!gl) {
-                alert("Unable to initialize WebGL. Your browser may not support it.");
-                gl = null;
-            }
-                                               
-            return gl;
-    };
-	var gl; // A global variable for the WebGL context
 
-	var start = function() {
-	  var canvas = document.getElementById("glcanvas");
+		var imageIndex = 1;
+		var LAST_IMAGE_INDEX = 5;
+		var COMIC_FILE_PREFIX = 'resources/';
+		var COMIC_FILE_POSTFIX = '.jpg';
+		
+		/*
+		Setup three.js WebGL renderer
+		*/
+		var renderer = new THREE.WebGLRenderer( { antialias: true } );
 
-	  gl = initWebGL(canvas);      // Initialize the GL context
+		/*
+		Append the canvas element created by the renderer to document body element.
+		*/
+		doc.body.appendChild( renderer.domElement );
 
-	  // Only continue if WebGL is available and working
+		/*
+		Create a three.js scene
+		*/
+		var scene = new THREE.Scene();
 
-	  if (gl) {
-	    gl.clearColor(0.0, 0.0, 0.0, 1.0);                      // Set clear color to black, fully opaque
-	    gl.enable(gl.DEPTH_TEST);                               // Enable depth testing
-	    gl.depthFunc(gl.LEQUAL);                                // Near things obscure far things
-	    gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);      // Clear the color as well as the depth buffer.
-	  }
+		/*
+		Create a three.js camera
+		*/
+		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+
+		/*
+		Apply VR headset positional data to camera.
+		*/
+		var controls = new THREE.VRControls( camera );
+
+		/*
+		Apply VR stereo rendering to renderer
+		*/
+		var effect = new THREE.VREffect( renderer );
+		effect.setSize( window.innerWidth, window.innerHeight );
+
+		/*
+		Create 3d objects
+		*/
+		var geometry = new THREE.BoxGeometry( 20, 30.91, 20 );
+
+		THREE.ImageUtils.crossOrigin = '';
+		var material = new THREE.MeshBasicMaterial(
+			{map: THREE.ImageUtils.loadTexture( COMIC_FILE_PREFIX + imageIndex + COMIC_FILE_POSTFIX )}
+		);
+
+
+		var cube = new THREE.Mesh( geometry, material );
+
+		/*
+		Position cube mesh
+		*/
+		cube.position.z = -20;
+
+		/*
+		Add cube mesh to your three.js scene
+		*/
+		scene.add( cube );
+
+		/*
+		Request animation frame loop function
+		*/
+		var animate = function() {
+			/*
+			Apply rotation to cube mesh
+			*/
+			//cube.rotation.y += 0.01;
+
+			/*
+			Update VR headset position and apply to camera.
+			*/
+			controls.update();
+
+			/*
+			Render the scene through the VREffect.
+			*/
+			effect.render( scene, camera );
+
+			requestAnimationFrame( animate );
+		}
+
+		/*
+		Kick off animation loop
+		*/
+		animate();
+
+		/*
+		Listen for double click event to enter full-screen VR mode
+		*/
+		document.body.addEventListener( 'dblclick', function() {
+			effect.setFullScreen( true );
+		});
+
+		/*
+		Listen for keyboard event and zero positional sensor on appropriate keypress.
+		*/
+		var onkey = function(event) {
+	    	event.preventDefault();
+
+			var moveValue = 0.2;
+	    	if (event.keyCode == 90) { // z
+	    		controls.zeroSensor();
+	    	} else if (event.keyCode == 32) { // Space
+				cube.position.x = 0;
+				cube.position.y = -9;
+	   		} else if (event.keyCode == 37) { // Left
+				if (imageIndex === 1) {
+					imageIndex = LAST_IMAGE_INDEX;
+				} else {
+					imageIndex--;
+				}
+				swapComicPage(imageIndex);
+   			} else if (event.keyCode == 38) { // Up
+				cube.position.z = cube.position.z + moveValue;
+			} else if (event.keyCode == 39) { // Right
+				if (imageIndex === LAST_IMAGE_INDEX) {
+					imageIndex = 1;
+				} else {
+					imageIndex++;
+				}
+				swapComicPage(imageIndex);
+			} else if (event.keyCode == 40) { // Down
+				cube.position.z = cube.position.z - moveValue;
+			} else if (event.keyCode == 87) { //W
+				cube.position.y = cube.position.y - moveValue;
+			} else if (event.keyCode == 83) { //S
+				cube.position.y = cube.position.y + moveValue;
+			} else if (event.keyCode == 65) { //A 
+				cube.position.x = cube.position.x + moveValue;
+			} else if (event.keyCode == 68) { //D 
+				cube.position.x = cube.position.x - moveValue;
+			}
+			
+	  };
+	
+	var swapComicPage = function(index) {
+		material.map = THREE.ImageUtils.loadTexture( COMIC_FILE_PREFIX + index + COMIC_FILE_POSTFIX );
+		material.needsUpdate = true;
 	}
-    return { start: start};
+
+	  window.addEventListener("keydown", onkey, true);
+
+
+		/*
+		Handle window resizes
+		*/
+		var onWindowResize = function() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			effect.setSize( window.innerWidth, window.innerHeight );
+		}
+
+		window.addEventListener( 'resize', onWindowResize, false );
+    return { };
 } (document) );
